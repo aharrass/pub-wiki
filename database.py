@@ -7,7 +7,7 @@ from sqlalchemy.orm import declarative_base
 from config import settings
 
 # 비동기 엔진 생성
-engine = create_async_engine(settings.DATABASE_URL, echo=True)
+engine = create_async_engine(settings.DB_URL, echo=True)
 
 
 # 세션 팩토리 생성

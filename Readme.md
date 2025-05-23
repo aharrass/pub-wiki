@@ -4,6 +4,7 @@
 > 2. pydantic_settings
 > 3. sqlalchemy
 > 4. asyncio
+> 5. asnycpg
 > 
 
 2. Database

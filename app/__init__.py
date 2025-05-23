@@ -4,10 +4,15 @@ from fastapi import FastAPI
 from starlette.middleware import Middleware
 from fastapi.middleware.cors import CORSMiddleware
 
+from database import create_tables
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     print("app start")
+
+    await create_tables()
+    print("Database Table Created !")
 
     yield
 
