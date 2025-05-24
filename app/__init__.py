@@ -6,11 +6,15 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from database import create_tables
 
+# create Tables의 Base.metadata 등록을 위해 import
+import models
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     print("app start")
 
+    # Setup Code =====
     await create_tables()
     print("Database Table Created !")
 
