@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from starlette.middleware import Middleware
 from fastapi.middleware.cors import CORSMiddleware
 
+from api import router
 from database import create_tables
 
 # create Tables의 Base.metadata 등록을 위해 import
@@ -44,5 +45,8 @@ def create_app() -> FastAPI:
             ),
         ]
     )
+
+    #Router Include
+    app.include_router(router)
 
     return app

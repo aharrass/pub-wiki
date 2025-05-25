@@ -30,6 +30,21 @@ async def create_short_url(db : AsyncSession, url_create: URLCreate) -> Optional
         print(f'create_short_url() : Occurs Error : {e}')
         raise e
 
+# Duplicate Validate URL
+async def validate_short_url(db : AsyncSession, short_url: str) -> Optional[URL]:
+    """
+    short_url 정보를 토대로 기존에 존재하는 short_url이 있는 지 확인
+    :param db:
+    :param short_url:
+    :return:
+    """
+    result = await db.execute(
+        select(URL).where(URL.short_url == short_url)
+    )
+
+    url = result.scalar_one_or_none()
+    return url
+
 # Search Long URL
 async def get_short_url(db : AsyncSession, long_url: str) -> Optional[URL]:
     """
