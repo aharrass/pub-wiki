@@ -1,15 +1,16 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
+from starlette.responses import RedirectResponse
 
 from crud import create_short_url, get_short_url, validate_short_url
 from database import get_db
 from schemas import URLResponse, URLCreate
 from utils import generate_short_url
 
-router = APIRouter(prefix="/api", tags=["URL_API"])
+router = APIRouter(tags=["URL_API"])
 
-@router.get(
-    "/url_generate/{long_url}",
+@router.post(
+    "/api/url_generate/{long_url}",
     summary="Short URL Generate",
     description="현재 시간과 난수를 결합한 값을 Base62로 인코딩하여 6~8자리의 고유한 short URL을 생성합니다.",
     response_description="생성된 Short URL 정보를 반환합니다.",
@@ -47,3 +48,17 @@ async def generate_unique_short_url(length:int, db: AsyncSession):
         exists = await validate_short_url(db, result)
         if not exists:
             return result
+
+@router.get(
+    "/{short_url}",
+    summary="Short URL Redirect",
+    response_description="Short URL Redirect"
+)
+async def redirect_short_url(short_url: str, db: AsyncSession = Depends(get_db)):
+    print(f"redirect_short_url() : Short URL : {short_url}")
+    url = await validate_short_url(db, short_url)
+
+    if not url:
+        raise HTTPException(status_code=404, detail=f"Not found URL - {short_url}")
+
+    return RedirectResponse(url.long_url, status_code=307)

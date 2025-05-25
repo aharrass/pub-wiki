@@ -12,7 +12,7 @@ engine = create_async_engine(settings.DB_URL, echo=True)
 
 # 세션 팩토리 생성
 AsyncSession = async_sessionmaker(
-    engine=engine,
+    bind=engine,
     class_=AsyncSession,
     expire_on_commit=False
 )
