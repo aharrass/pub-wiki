@@ -52,6 +52,7 @@ async def generate_unique_short_url(length:int, db: AsyncSession):
 @router.get(
     "/{short_url}",
     summary="Short URL Redirect",
+    description="Short URL 값을 검색 하여 long_url값을 찾은 후, 리다이렉트 실행 [Status Code : 307]",
     response_description="Short URL Redirect"
 )
 async def redirect_short_url(short_url: str, db: AsyncSession = Depends(get_db)):
