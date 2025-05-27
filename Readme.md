@@ -34,3 +34,23 @@ shortURL/
 ├── .gitignore          # Git 제외 파일 목록
 └── Readme.md           # 프로젝트 설명 문서
 ```
+
+4. Server Start
+1) 가상환경 생성 및 활성화
+```shell
+python3 -m venv venv
+source venv/bin/activate
+```
+2) requirements.txt 기반 라이브러리 설치
+```shall
+pip install -r requirements.txt
+```
+
+3) 서버 실행
+```shell
+#일반적인 실행방법
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+# Background 실행 & 서버 로그 저장 (선택)
+nohup uvicorn app.main:app --host 0.0.0.0 --port 8000 > server.log 2>&1 &
+```
